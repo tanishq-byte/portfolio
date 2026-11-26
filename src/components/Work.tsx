@@ -13,7 +13,7 @@ const projects = [
     tools: "Python, LlamaIndex, Qdrant, FastAPI, Docker, Ragas",
     summary:
       "Hybrid retrieval (BM25 + embeddings, RRF, cross-encoder reranking) over FAA defect reports; raised top-5 accuracy from 76% to 93% with citation guardrails.",
-    image: "/images/placeholder.webp",
+    image: "/images/project-rag.jpg",
   },
   {
     title: "Carbon Credit Trading System",
@@ -21,7 +21,7 @@ const projects = [
     tools: "React, Tailwind CSS, Solidity, Python (ERC-20 & ERC-721)",
     summary:
       "Tokenizes each ton of CO2 as tradable ERC-20 credits and issues unique ERC-721 NFT certificates to verified companies for compliant trading.",
-    image: "/images/placeholder.webp",
+    image: "/images/project-carbon.jpg",
   },
   {
     title: "Berry Growth Stage Detector",
@@ -29,7 +29,7 @@ const projects = [
     tools: "Python, PyTorch, Hugging Face, OpenCV, NumPy, Matplotlib",
     summary:
       "Fine-tuned ViT-Base using Low-Rank Adaptation (LoRA) for strawberry and blueberry detection and growth-stage classification at 89% accuracy.",
-    image: "/images/placeholder.webp",
+    image: "/images/project-berry.jpg",
   },
   {
     title: "Carbon Asset Governance Patent",
@@ -37,7 +37,7 @@ const projects = [
     tools: "Solidity, Cryptographic Verification, Hybrid DApp Architecture",
     summary:
       "Co-inventor of a decentralized lifecycle governance system for carbon assets combining smart contracts with off-chain storage (Filed Mar. 2026).",
-    image: "/images/placeholder.webp",
+    image: "/images/project-patent.jpg",
   },
 ];
 

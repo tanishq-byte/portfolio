@@ -13,27 +13,43 @@ const setCharacter = (
   dracoLoader.setDecoderPath("/draco/");
   loader.setDRACOLoader(dracoLoader);
 
-  const loadCharacter = () => {
-    return new Promise<GLTF | null>(async (resolve, reject) => {
-      try {
-        const encryptedBlob = await decryptFile(
-          "/models/character.enc",
-          "Character3D#@"
-        );
-        const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
+  const loadCharacter = async (
+    shouldCancel?: () => boolean
+  ): Promise<GLTF | null> => {
+    const encryptedBlob = await decryptFile(
+      "/models/character.enc",
+      "Character3D#@"
+    );
+    if (shouldCancel?.()) {
+      dracoLoader.dispose();
+      return null;
+    }
+    const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
 
+    return new Promise<GLTF | null>((resolve, reject) => {
+      try {
         let character: THREE.Object3D;
         loader.load(
           blobUrl,
           async (gltf) => {
+            URL.revokeObjectURL(blobUrl);
+            if (shouldCancel?.()) {
+              dracoLoader.dispose();
+              resolve(null);
+              return;
+            }
             character = gltf.scene;
             await renderer.compileAsync(character, camera, scene);
-            character.traverse((child: any) => {
-              if (child.isMesh) {
-                const mesh = child as THREE.Mesh;
+            if (shouldCancel?.()) {
+              dracoLoader.dispose();
+              resolve(null);
+              return;
+            }
+            character.traverse((child) => {
+              if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
-                mesh.frustumCulled = true;
+                child.frustumCulled = true;
               }
             });
             resolve(gltf);
@@ -45,11 +61,13 @@ const setCharacter = (
           },
           undefined,
           (error) => {
+            URL.revokeObjectURL(blobUrl);
             console.error("Error loading GLTF model:", error);
             reject(error);
           }
         );
       } catch (err) {
+        URL.revokeObjectURL(blobUrl);
         reject(err);
         console.error(err);
       }
