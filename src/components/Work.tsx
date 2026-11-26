@@ -43,41 +43,49 @@ const projects = [
 
 const Work = () => {
   useGSAP(() => {
-    function getTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      const container = document.querySelector(".work-container");
-      if (!box.length || !container || !box[0].parentElement) return 0;
-      const rectLeft = container.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement.getBoundingClientRect().width;
-      const padding = parseInt(window.getComputedStyle(box[0]).padding) / 2;
-      return Math.max(
-        0,
-        rect.width * box.length - (rectLeft + parentWidth) + padding
-      );
-    }
+    const mm = gsap.matchMedia();
 
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".work-section",
-        start: "top top",
-        end: () => `+=${getTranslateX()}`,
-        scrub: true,
-        pin: true,
-        invalidateOnRefresh: true,
-        id: "work",
-      },
+    mm.add("(min-width: 769px)", () => {
+      function getTranslateX() {
+        const box = document.getElementsByClassName("work-box");
+        const container = document.querySelector(".work-container");
+        if (!box.length || !container || !box[0].parentElement) return 0;
+        const rectLeft = container.getBoundingClientRect().left;
+        const rect = box[0].getBoundingClientRect();
+        const parentWidth = box[0].parentElement.getBoundingClientRect().width;
+        const padding = parseInt(window.getComputedStyle(box[0]).padding) / 2;
+        return Math.max(
+          0,
+          rect.width * box.length - (rectLeft + parentWidth) + padding
+        );
+      }
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: () => `+=${getTranslateX()}`,
+          scrub: 0.5,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          id: "work",
+        },
+      });
+
+      timeline.to(".work-flex", {
+        x: () => -getTranslateX(),
+        ease: "none",
+      });
+
+      return () => {
+        timeline.kill();
+        ScrollTrigger.getById("work")?.kill();
+      };
     });
 
-    timeline.to(".work-flex", {
-      x: () => -getTranslateX(),
-      ease: "none",
-    });
-
-    // Clean up (optional, good practice)
     return () => {
-      timeline.kill();
-      ScrollTrigger.getById("work")?.kill();
+      mm.revert();
     };
   }, []);
   return (
