@@ -6,9 +6,12 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis
-          dolores numquam iusto Ratione earum ducimus autem id iure pariatur
-          dolorum quae maiores.
+          Computer Science (IoT, Blockchain &amp; Cyber Security) undergraduate at
+          Dayananda Sagar College of Engineering, Bangalore (CGPA: 8.8). I build
+          hybrid-retrieval RAG pipelines, AI agent workflows, parameter-efficient
+          Vision Transformers, and smart-contract DApps — backed by Computer
+          Vision internship experience at E-refresh and a filed Indian patent in
+          decentralized carbon asset governance.
         </p>
       </div>
     </div>

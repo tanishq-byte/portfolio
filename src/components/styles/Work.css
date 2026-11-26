@@ -1,7 +1,9 @@
 .work-section h2 {
-  margin-top: 100px;
+  margin-top: 60px;
+  margin-bottom: 24px;
   font-size: 70px;
   font-weight: 500;
+  flex-shrink: 0;
 }
 .work-section h2 > span {
   color: var(--accentColor);
@@ -10,6 +12,8 @@
   transition: 0s;
   height: 100vh;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
   will-change: transform;
 }
 .work-container {
@@ -22,21 +26,23 @@
 .work-flex {
   width: 100%;
   display: flex;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   margin-left: -80px;
   padding-right: 120px;
   position: relative;
 }
 .work-box {
-  padding: 80px;
+  padding: 40px 60px;
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 560px;
+  height: 100%;
   box-sizing: border-box;
   border-right: 1px solid #363636;
   flex-shrink: 0;
-  gap: 50px;
-  justify-content: start;
+  gap: 24px;
+  justify-content: space-between;
 }
 .work-flex .work-box:nth-child(even) {
   flex-direction: column-reverse;
@@ -53,7 +59,8 @@
   transform: translateX(-50%);
 }
 .work-flex::after {
-  top: 100%;
+  top: auto;
+  bottom: 0;
 }
 .work-title {
   justify-content: space-between;
@@ -88,6 +95,9 @@
 .work-image {
   display: flex;
   width: 100%;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
   justify-content: center;
 }
 .work-image-in {
@@ -127,20 +137,21 @@
 }
 .work-image img {
   max-width: 100%;
-  max-height: 350px;
+  max-height: 240px;
+  object-fit: cover;
 }
 @media only screen and (max-height: 900px) {
   .work-image img {
-    max-height: 250px;
+    max-height: 190px;
   }
   .work-box {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 28px;
+    padding-bottom: 28px;
   }
   .work-section h2 {
-    font-size: 60px;
-    margin-bottom: 30px;
-    margin-top: 70px;
+    font-size: 56px;
+    margin-bottom: 20px;
+    margin-top: 50px;
   }
 }
 @media only screen and (max-width: 1400px) {
@@ -154,38 +165,29 @@
     font-size: 15px;
   }
   .work-box {
-    width: 450px;
-    padding: 50px;
+    width: 440px;
+    padding: 32px;
   }
   .work-flex {
-    margin-left: -50px;
-    padding-right: 75px;
+    margin-left: -32px;
+    padding-right: 48px;
   }
   .work-section h2 {
-    font-size: 50px;
-  }
-}
-@media only screen and (max-width: 1400px) {
-  .work-box {
-    width: 350px;
-    padding: 30px;
-  }
-  .work-flex {
-    margin-left: -30px;
-    padding-right: 45px;
+    font-size: 48px;
   }
 }
 
 @media only screen and (max-height: 650px) {
   .work-image img {
-    max-height: 200px;
+    max-height: 150px;
   }
   .work-section h2 {
     font-size: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    margin-top: 40px;
   }
   .work-box {
-    gap: 20px;
+    gap: 16px;
   }
 }
 /* @media only screen and (max-width: 900px) {

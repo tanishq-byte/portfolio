@@ -6,46 +6,80 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+const projects = [
+  {
+    title: "Aircraft Maintenance Assistant",
+    category: "GenAI / Hybrid RAG",
+    tools: "Python, LlamaIndex, Qdrant, FastAPI, Docker, Ragas",
+    summary:
+      "Hybrid retrieval (BM25 + embeddings, RRF, cross-encoder reranking) over FAA defect reports; raised top-5 accuracy from 76% to 93% with citation guardrails.",
+    image: "/images/placeholder.webp",
+  },
+  {
+    title: "Carbon Credit Trading System",
+    category: "Blockchain / Smart Contracts",
+    tools: "React, Tailwind CSS, Solidity, Python (ERC-20 & ERC-721)",
+    summary:
+      "Tokenizes each ton of CO2 as tradable ERC-20 credits and issues unique ERC-721 NFT certificates to verified companies for compliant trading.",
+    image: "/images/placeholder.webp",
+  },
+  {
+    title: "Berry Growth Stage Detector",
+    category: "Computer Vision / ViT + LoRA",
+    tools: "Python, PyTorch, Hugging Face, OpenCV, NumPy, Matplotlib",
+    summary:
+      "Fine-tuned ViT-Base using Low-Rank Adaptation (LoRA) for strawberry and blueberry detection and growth-stage classification at 89% accuracy.",
+    image: "/images/placeholder.webp",
+  },
+  {
+    title: "Carbon Asset Governance Patent",
+    category: "Indian Patent 202641027095 A",
+    tools: "Solidity, Cryptographic Verification, Hybrid DApp Architecture",
+    summary:
+      "Co-inventor of a decentralized lifecycle governance system for carbon assets combining smart contracts with off-chain storage (Filed Mar. 2026).",
+    image: "/images/placeholder.webp",
+  },
+];
+
 const Work = () => {
   useGSAP(() => {
-  let translateX: number = 0;
+    function getTranslateX() {
+      const box = document.getElementsByClassName("work-box");
+      const container = document.querySelector(".work-container");
+      if (!box.length || !container || !box[0].parentElement) return 0;
+      const rectLeft = container.getBoundingClientRect().left;
+      const rect = box[0].getBoundingClientRect();
+      const parentWidth = box[0].parentElement.getBoundingClientRect().width;
+      const padding = parseInt(window.getComputedStyle(box[0]).padding) / 2;
+      return Math.max(
+        0,
+        rect.width * box.length - (rectLeft + parentWidth) + padding
+      );
+    }
 
-  function setTranslateX() {
-    const box = document.getElementsByClassName("work-box");
-    const rectLeft = document
-      .querySelector(".work-container")!
-      .getBoundingClientRect().left;
-    const rect = box[0].getBoundingClientRect();
-    const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
-    let padding: number =
-      parseInt(window.getComputedStyle(box[0]).padding) / 2;
-    translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
-  }
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".work-section",
+        start: "top top",
+        end: () => `+=${getTranslateX()}`,
+        scrub: true,
+        pin: true,
+        invalidateOnRefresh: true,
+        id: "work",
+      },
+    });
 
-  setTranslateX();
+    timeline.to(".work-flex", {
+      x: () => -getTranslateX(),
+      ease: "none",
+    });
 
-  let timeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".work-section",
-      start: "top top",
-      end: `+=${translateX}`, // Use actual scroll width
-      scrub: true,
-      pin: true,
-      id: "work",
-    },
-  });
-
-  timeline.to(".work-flex", {
-    x: -translateX,
-    ease: "none",
-  });
-
-  // Clean up (optional, good practice)
-  return () => {
-    timeline.kill();
-    ScrollTrigger.getById("work")?.kill();
-  };
-}, []);
+    // Clean up (optional, good practice)
+    return () => {
+      timeline.kill();
+      ScrollTrigger.getById("work")?.kill();
+    };
+  }, []);
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
@@ -53,21 +87,22 @@ const Work = () => {
           My <span>Work</span>
         </h2>
         <div className="work-flex">
-          {[...Array(6)].map((_value, index) => (
-            <div className="work-box" key={index}>
+          {projects.map((project, index) => (
+            <div className="work-box" key={project.title}>
               <div className="work-info">
                 <div className="work-title">
                   <h3>0{index + 1}</h3>
 
                   <div>
-                    <h4>Project Name</h4>
-                    <p>Category</p>
+                    <h4>{project.title}</h4>
+                    <p>{project.category}</p>
                   </div>
                 </div>
                 <h4>Tools and features</h4>
-                <p>Javascript, TypeScript, React, Threejs</p>
+                <p>{project.tools}</p>
+                <p>{project.summary}</p>
               </div>
-              <WorkImage image="/images/placeholder.webp" alt="" />
+              <WorkImage image={project.image} alt={project.title} />
             </div>
           ))}
         </div>
